@@ -23,7 +23,8 @@ def forwardSearch(data):
                 goodFeats = currentFeatures.copy()
                 goodFeats.append(featureNum)
                 featureAcc = crossValidation(data.copy(), goodFeats)
-                print(f"--Using feature(s) {goodFeats} has accuracy {featureAcc}")
+                print(f"--Using feature(s) {goodFeats} has accuracy: ", end = "")
+                print("{0:.1%}".format(featureAcc))
 
                 # compare the accuracy for the current feature
                 if featureAcc > bestAcc:
@@ -69,7 +70,8 @@ def backwardsElim(data):
                 newFeatures = currentFeatures.copy()
                 eliminatedFeature = newFeatures.pop(newFeatures.index(j))
                 featureAcc = crossValidation(data, newFeatures) # run cross validation on currentFeatures.copy
-                print(f"--Eliminating feature {eliminatedFeature} has accuracy {featureAcc}")
+                print(f"--Eliminating feature {eliminatedFeature} has accuracy: ", end = "")
+                print("{0:.1%}".format(featureAcc))
             
                 # compare the accuracy for the current feature
                 if featureAcc > bestAcc:
@@ -86,6 +88,12 @@ def backwardsElim(data):
             bestFeatures = currentFeatures.copy()
 
     return bestFeatures
+
+def defaultAcc(data, numOfFeatures):
+    features = []
+    for i in range(numOfFeatures):
+        features.append(i + 1)
+    return crossValidation(data, features)
 
 def crossValidation(data, features):
     numRows = len(data)
@@ -143,16 +151,20 @@ def main():
             data.append(row)
     openFile.close()
 
-    backwardsElim(data)
-
-    # searchChoice = input("Type the number of the algorithm that you'd like to run.\n 1) Forward Selection\n 2) Backward Elimination\n")
+    searchChoice = input("\nType the number of the algorithm that you'd like to run.\n 1) Forward Selection\n 2) Backward Elimination\n")
     
-    # if searchChoice == 1:
-    #     print(forwardSearch(data))
-    # elif searchChoice == 2:
-    #     backwardsElim(data)
-    # else:
-    #     print(f"Sorry, {searchChoice} is not an option.")
-    #     exit(1)
+    numOfFeatures = len(data[0]) - 1
+    default = defaultAcc(data.copy(), numOfFeatures)
+    print(f"\nThis dataset has {len(data[0]) - 1} features and {len(data)} instances")
+    print(f"Running nearest neighbor with all {len(data[0]) - 1} features, using \"leave-one-out cross validation\" we get an accuracy of: ")
+    print("{0:.1%}".format(default))
+
+    if searchChoice == '1':
+        print(f"\nThe best feature subset to use is: {forwardSearch(data)}")
+    elif searchChoice == '2':
+        print(f"\nThe best feature subset to use is: {backwardsElim(data)}")
+    else:
+        print(f"Sorry, {searchChoice} is not an option.")
+        exit(1)
 
 main()
