@@ -1,10 +1,11 @@
+import random
 import numpy as np
 
 def forwardSearch(data):
     print("\nBeginning forward search!")
     
     numOfFeatures = len(data[0]) - 1
-    
+
     bestFeatures = []
     bestAccEver = -1
     currentFeatures = []
@@ -44,46 +45,47 @@ def backwardsElim(data):
     print("\nBeginning backwards elimination!")
 
     numOfFeatures = len(data[0]) - 1
-    currentFeatures = []
     bestFeatures = []
     bestAccEver = -1
+    currentFeatures = []
 
+    # accumulate all feature numbers into current features
     for i in range(numOfFeatures):
+        currentFeatures.append(i + 1)
 
-
-
+    # loops through all 10 features 
     for i in range(numOfFeatures):
         level = i + 1
         currBestFeature = -1
         bestAcc = -1
+
         print(f"On level {level} of the search tree")
+        print(f"Current Features: {currentFeatures}")
 
-        for j in range(numOfFeatures):
-            featureNum = j + 1
-            # check if the current feature is in the features 
-            if featureNum not in currentFeatures: 
-                goodFeats = currentFeatures.copy()
-                goodFeats.append(featureNum)
-                featureAcc = crossValidation(data.copy(), goodFeats)
-                print(f"--Using feature(s) {goodFeats} has accuracy {featureAcc}")
-
+        # j is looping over the features
+        for j in reversed(range(numOfFeatures + 1)):
+            # check if j hasn't been eliminated yet
+            if j in currentFeatures:
+                newFeatures = currentFeatures.copy()
+                eliminatedFeature = newFeatures.pop(newFeatures.index(j))
+                featureAcc = crossValidation(data, newFeatures) # run cross validation on currentFeatures.copy
+                print(f"--Eliminating feature {eliminatedFeature} has accuracy {featureAcc}")
+            
                 # compare the accuracy for the current feature
                 if featureAcc > bestAcc:
                     bestAcc = featureAcc
-                    currBestFeature = featureNum
+                    currBestFeature = eliminatedFeature
 
-        currentFeatures.append(currBestFeature)
+        # at the end of each i iteration, pop the best element from currentFeatures
+        currentFeatures.pop(currentFeatures.index(currBestFeature))
+        print(f"At level {level} eliminated feature {currBestFeature}\n")
 
         # compare the accuracy of the current set of features against the best set of features
         if bestAcc > bestAccEver:
             bestAccEver = bestAcc
             bestFeatures = currentFeatures.copy()
 
-        print(f"On level {level}, feature {currBestFeature} was added!\n")
-
     return bestFeatures
-
-
 
 def crossValidation(data, features):
     numRows = len(data)
@@ -141,14 +143,16 @@ def main():
             data.append(row)
     openFile.close()
 
-    searchChoice = input("Type the number of the algorithm that you'd like to run.\n 1) Forward Selection\n 2) Backward Elimination\n")
+    backwardsElim(data)
+
+    # searchChoice = input("Type the number of the algorithm that you'd like to run.\n 1) Forward Selection\n 2) Backward Elimination\n")
     
-    if searchChoice == 1:
-        print(forwardSearch(data))
-    elif searchChoice == 2:
-        backwardsElim(data)
-    else:
-        print(f"Sorry, {searchChoice} is not an option.")
-        exit(1)
+    # if searchChoice == 1:
+    #     print(forwardSearch(data))
+    # elif searchChoice == 2:
+    #     backwardsElim(data)
+    # else:
+    #     print(f"Sorry, {searchChoice} is not an option.")
+    #     exit(1)
 
 main()
