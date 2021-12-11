@@ -1,0 +1,109 @@
+Welcome to the Feature Selection Algorithm
+Type in the name of the file to test: 
+Ver_2_CS170_Fall_2021_Small_data__81.txt
+Type the number of the algorithm that you'd like to run.
+ 1) Forward Selection
+ 2) Backward Elimination
+2
+This dataset has 10 features and 500 instances
+Running nearest neighbor with all 10 features, using "leave-one-out cross validation" we get an accuracy of: 
+78.8%
+
+Beginning backwards elimination!
+On level 1 of the search tree
+Current Features: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+--Eliminating feature 10 has accuracy: 79.8%
+--Eliminating feature 9 has accuracy: 81.6%
+--Eliminating feature 8 has accuracy: 80.4%
+--Eliminating feature 7 has accuracy: 79.4%
+--Eliminating feature 6 has accuracy: 79.8%
+--Eliminating feature 5 has accuracy: 81.8%
+--Eliminating feature 4 has accuracy: 80.4%
+--Eliminating feature 3 has accuracy: 75.4%
+--Eliminating feature 2 has accuracy: 77.0%
+--Eliminating feature 1 has accuracy: 78.6%
+At level 1 eliminated feature 5
+
+On level 2 of the search tree
+Current Features: [1, 2, 3, 4, 6, 7, 8, 9, 10]
+--Eliminating feature 10 has accuracy: 82.6%
+--Eliminating feature 9 has accuracy: 82.0%
+--Eliminating feature 8 has accuracy: 81.4%
+--Eliminating feature 7 has accuracy: 81.0%
+--Eliminating feature 6 has accuracy: 80.6%
+--Eliminating feature 4 has accuracy: 82.4%
+--Eliminating feature 3 has accuracy: 76.0%
+--Eliminating feature 2 has accuracy: 79.6%
+--Eliminating feature 1 has accuracy: 76.8%
+At level 2 eliminated feature 10
+
+On level 3 of the search tree
+Current Features: [1, 2, 3, 4, 6, 7, 8, 9]
+--Eliminating feature 9 has accuracy: 81.8%
+--Eliminating feature 8 has accuracy: 82.2%
+--Eliminating feature 7 has accuracy: 82.8%
+--Eliminating feature 6 has accuracy: 80.0%
+--Eliminating feature 4 has accuracy: 84.6%
+--Eliminating feature 3 has accuracy: 76.4%
+--Eliminating feature 2 has accuracy: 80.4%
+--Eliminating feature 1 has accuracy: 78.0%
+At level 3 eliminated feature 4
+
+On level 4 of the search tree
+Current Features: [1, 2, 3, 6, 7, 8, 9]
+--Eliminating feature 9 has accuracy: 86.8%
+--Eliminating feature 8 has accuracy: 83.8%
+--Eliminating feature 7 has accuracy: 85.4%
+--Eliminating feature 6 has accuracy: 84.2%
+--Eliminating feature 3 has accuracy: 79.4%
+--Eliminating feature 2 has accuracy: 84.2%
+--Eliminating feature 1 has accuracy: 79.6%
+At level 4 eliminated feature 9
+
+On level 5 of the search tree
+Current Features: [1, 2, 3, 6, 7, 8]
+--Eliminating feature 8 has accuracy: 88.2%
+--Eliminating feature 7 has accuracy: 86.4%
+--Eliminating feature 6 has accuracy: 87.2%
+--Eliminating feature 3 has accuracy: 78.6%
+--Eliminating feature 2 has accuracy: 85.8%
+--Eliminating feature 1 has accuracy: 78.4%
+At level 5 eliminated feature 8
+
+On level 6 of the search tree
+Current Features: [1, 2, 3, 6, 7]
+--Eliminating feature 7 has accuracy: 91.6%
+--Eliminating feature 6 has accuracy: 90.8%
+--Eliminating feature 3 has accuracy: 80.0%
+--Eliminating feature 2 has accuracy: 87.8%
+--Eliminating feature 1 has accuracy: 83.4%
+At level 6 eliminated feature 7
+
+On level 7 of the search tree
+Current Features: [1, 2, 3, 6]
+--Eliminating feature 6 has accuracy: 94.8%
+--Eliminating feature 3 has accuracy: 79.4%
+--Eliminating feature 2 has accuracy: 94.0%
+--Eliminating feature 1 has accuracy: 82.2%
+At level 7 eliminated feature 6
+
+On level 8 of the search tree
+Current Features: [1, 2, 3]
+--Eliminating feature 3 has accuracy: 76.6%
+--Eliminating feature 2 has accuracy: 97.2%
+--Eliminating feature 1 has accuracy: 85.2%
+At level 8 eliminated feature 2
+
+On level 9 of the search tree
+Current Features: [1, 3]
+--Eliminating feature 3 has accuracy: 77.6%
+--Eliminating feature 1 has accuracy: 85.8%
+At level 9 eliminated feature 1
+
+On level 10 of the search tree
+Current Features: [3]
+--Eliminating feature 3 has accuracy: 85.0%
+At level 10 eliminated feature 3
+
+
+The best feature subset to use is: [1, 3]

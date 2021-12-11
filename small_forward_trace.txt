@@ -1,0 +1,99 @@
+Welcome to the Feature Selection Algorithm
+Type in the name of the file to test: 
+
+Type the number of the algorithm that you'd like to run.
+ 1) Forward Selection
+ 2) Backward Elimination
+2
+This dataset has 10 features and 500 instances
+Running nearest neighbor with all 10 features, using "leave-one-out cross validation" we get an accuracy of: 
+78.8%
+
+Beginning forward search!
+On level 1 of the search tree
+--Using feature(s) [1] has accuracy: 77.6%
+--Using feature(s) [2] has accuracy: 71.0%
+--Using feature(s) [3] has accuracy: 85.8%
+--Using feature(s) [4] has accuracy: 75.6%
+--Using feature(s) [5] has accuracy: 73.6%
+--Using feature(s) [6] has accuracy: 75.0%
+--Using feature(s) [7] has accuracy: 74.8%
+--Using feature(s) [8] has accuracy: 75.2%
+--Using feature(s) [9] has accuracy: 74.4%
+--Using feature(s) [10] has accuracy: 77.6%
+On level 1, feature 3 was added!
+
+On level 2 of the search tree
+--Using feature(s) [3, 1] has accuracy: 97.2%
+--Using feature(s) [3, 2] has accuracy: 85.2%
+--Using feature(s) [3, 4] has accuracy: 87.0%
+--Using feature(s) [3, 5] has accuracy: 87.4%
+--Using feature(s) [3, 6] has accuracy: 87.8%
+--Using feature(s) [3, 7] has accuracy: 86.8%
+--Using feature(s) [3, 8] has accuracy: 85.4%
+--Using feature(s) [3, 9] has accuracy: 84.4%
+--Using feature(s) [3, 10] has accuracy: 86.0%
+On level 2, feature 1 was added!
+
+On level 3 of the search tree
+--Using feature(s) [3, 1, 2] has accuracy: 94.8%
+--Using feature(s) [3, 1, 4] has accuracy: 93.4%
+--Using feature(s) [3, 1, 5] has accuracy: 91.0%
+--Using feature(s) [3, 1, 6] has accuracy: 94.0%
+--Using feature(s) [3, 1, 7] has accuracy: 94.2%
+--Using feature(s) [3, 1, 8] has accuracy: 93.8%
+--Using feature(s) [3, 1, 9] has accuracy: 93.2%
+--Using feature(s) [3, 1, 10] has accuracy: 92.6%
+On level 3, feature 2 was added!
+
+On level 4 of the search tree
+--Using feature(s) [3, 1, 2, 4] has accuracy: 90.8%
+--Using feature(s) [3, 1, 2, 5] has accuracy: 88.0%
+--Using feature(s) [3, 1, 2, 6] has accuracy: 91.6%
+--Using feature(s) [3, 1, 2, 7] has accuracy: 90.8%
+--Using feature(s) [3, 1, 2, 8] has accuracy: 89.8%
+--Using feature(s) [3, 1, 2, 9] has accuracy: 89.0%
+--Using feature(s) [3, 1, 2, 10] has accuracy: 90.6%
+On level 4, feature 6 was added!
+
+On level 5 of the search tree
+--Using feature(s) [3, 1, 2, 6, 4] has accuracy: 86.4%
+--Using feature(s) [3, 1, 2, 6, 5] has accuracy: 84.8%
+--Using feature(s) [3, 1, 2, 6, 7] has accuracy: 88.2%
+--Using feature(s) [3, 1, 2, 6, 8] has accuracy: 86.4%
+--Using feature(s) [3, 1, 2, 6, 9] has accuracy: 88.6%
+--Using feature(s) [3, 1, 2, 6, 10] has accuracy: 88.4%
+On level 5, feature 9 was added!
+
+On level 6 of the search tree
+--Using feature(s) [3, 1, 2, 6, 9, 4] has accuracy: 86.2%
+--Using feature(s) [3, 1, 2, 6, 9, 5] has accuracy: 83.8%
+--Using feature(s) [3, 1, 2, 6, 9, 7] has accuracy: 83.8%
+--Using feature(s) [3, 1, 2, 6, 9, 8] has accuracy: 85.4%
+--Using feature(s) [3, 1, 2, 6, 9, 10] has accuracy: 83.8%
+On level 6, feature 4 was added!
+
+On level 7 of the search tree
+--Using feature(s) [3, 1, 2, 6, 9, 4, 5] has accuracy: 82.6%
+--Using feature(s) [3, 1, 2, 6, 9, 4, 7] has accuracy: 82.2%
+--Using feature(s) [3, 1, 2, 6, 9, 4, 8] has accuracy: 82.8%
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10] has accuracy: 83.2%
+On level 7, feature 10 was added!
+
+On level 8 of the search tree
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10, 5] has accuracy: 80.6%
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10, 7] has accuracy: 81.4%
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10, 8] has accuracy: 81.0%
+On level 8, feature 7 was added!
+
+On level 9 of the search tree
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10, 7, 5] has accuracy: 80.4%
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10, 7, 8] has accuracy: 81.8%
+On level 9, feature 8 was added!
+
+On level 10 of the search tree
+--Using feature(s) [3, 1, 2, 6, 9, 4, 10, 7, 8, 5] has accuracy: 78.8%
+On level 10, feature 5 was added!
+
+
+The best feature subset to use is: [3, 1]
