@@ -1,113 +1,154 @@
-import random
 import numpy as np
 
-def forwardSearch(file):
-    with open(file, "r") as openFile:
-        numColumns = getNumColumns(openFile) - 1
-        openFile.seek(0)
-        features = []
+def forwardSearch(data):
+    print("\nBeginning forward search!")
+    
+    numOfFeatures = len(data[0]) - 1
+    
+    bestFeatures = []
+    bestAccEver = -1
+    currentFeatures = []
 
-        for i in range(numColumns):
-            level = i + 1
-            bestFeature = -1
-            bestAcc = -1
-            print(f"On level {level} of the search tree")
+    for i in range(numOfFeatures):
+        level = i + 1
+        currBestFeature = -1
+        bestAcc = -1
+        print(f"On level {level} of the search tree")
 
-            for j in range(numColumns):
+        for j in range(numOfFeatures):
+            featureNum = j + 1
+            # check if the current feature is in the features 
+            if featureNum not in currentFeatures: 
+                goodFeats = currentFeatures.copy()
+                goodFeats.append(featureNum)
+                featureAcc = crossValidation(data.copy(), goodFeats)
+                print(f"--Using feature(s) {goodFeats} has accuracy {featureAcc}")
 
-                featureNum = j + 1
-                # check if the current feature is in the features 
-                if (featureNum not in features): 
-                    print(f"--Considering adding feature {featureNum}")
-                    featureAcc = crossValidation()
+                # compare the accuracy for the current feature
+                if featureAcc > bestAcc:
+                    bestAcc = featureAcc
+                    currBestFeature = featureNum
 
-                    # compare the accuracy for the current feature
-                    if (featureAcc > bestAcc):
-                        bestAcc = featureAcc
-                        bestFeature = featureNum
-            
-            features.append(bestFeature)
-            print(f"On level {level}, feature {bestFeature} was added!\n")
-    openFile.close()
+        currentFeatures.append(currBestFeature)
 
-    print(features)
-    return features
+        # compare the accuracy of the current set of features against the best set of features
+        if bestAcc > bestAccEver:
+            bestAccEver = bestAcc
+            bestFeatures = currentFeatures.copy()
 
-def accuracy(file):
-    accuracy = 0
+        print(f"On level {level}, feature {currBestFeature} was added!\n")
 
-    with open(file, "r") as openFile:
-        numRows = getNumRows(openFile)
-        openFile.seek(0)
+    return bestFeatures
 
-        numClassifiedCorrectly = 0
+def backwardsElim(data):
+    print("\nBeginning backwards elimination!")
 
-        for i in range(numRows):
-            # read and convert row into a list of floats
-            iLine = openFile.readline()
-            iObject = [float(item) for item in iLine.strip().split()]
-            iLabel = int(iObject.pop(0))
+    numOfFeatures = len(data[0]) - 1
+    currentFeatures = []
+    bestFeatures = []
+    bestAccEver = -1
 
-            # save the last file position before the next loop
-            savedPosition = openFile.tell()
+    for i in range(numOfFeatures):
 
-            # initialize nearest neighbor variables
-            nnDistance = float("inf")
-            nnLocation = float("inf")
-            nnLabel = ""
 
-            # reset file position to the beginning of the file
-            openFile.seek(0)
-            for j, jLine in enumerate(openFile):
-                if j != i:
-                    # converts row into a list of floats
-                    jObject = [float(item) for item in jLine.strip().split()]
-                    jLabel = jObject.pop(0)
 
-                    # distance = sqrt of the sum of the difference squared
-                    distance = np.sqrt(np.sum(np.square(np.asarray(iObject) - np.asarray(jObject))))
+    for i in range(numOfFeatures):
+        level = i + 1
+        currBestFeature = -1
+        bestAcc = -1
+        print(f"On level {level} of the search tree")
 
-                    # if the calculated distance is now the smallest, update nearest neighbor variables        
-                    if distance < nnDistance:
-                        nnDistance = distance
-                        nnLocation = j + 1 
-                        nnLabel = jLabel
+        for j in range(numOfFeatures):
+            featureNum = j + 1
+            # check if the current feature is in the features 
+            if featureNum not in currentFeatures: 
+                goodFeats = currentFeatures.copy()
+                goodFeats.append(featureNum)
+                featureAcc = crossValidation(data.copy(), goodFeats)
+                print(f"--Using feature(s) {goodFeats} has accuracy {featureAcc}")
 
-            # print(f"Object {i + 1} is class {iLabel}")
-            # print(f"Its nearest neighbor is {nnLocation} which is in class {nnLabel}")
+                # compare the accuracy for the current feature
+                if featureAcc > bestAcc:
+                    bestAcc = featureAcc
+                    currBestFeature = featureNum
 
-            # if labels match, the object was identified correctly
-            if iLabel == nnLabel:
-                numClassifiedCorrectly += 1
+        currentFeatures.append(currBestFeature)
 
-            # restore the file position for the next i iteration
-            openFile.seek(savedPosition)
-        
-        accuracy = numClassifiedCorrectly / numRows
-    openFile.close()
+        # compare the accuracy of the current set of features against the best set of features
+        if bestAcc > bestAccEver:
+            bestAccEver = bestAcc
+            bestFeatures = currentFeatures.copy()
 
+        print(f"On level {level}, feature {currBestFeature} was added!\n")
+
+    return bestFeatures
+
+
+
+def crossValidation(data, features):
+    numRows = len(data)
+    goodFeatures = features.copy()
+    goodFeatures.insert(0, 0)
+    numFeatures = len(goodFeatures)
+
+    # declares a 2d-list and copies the features from data
+    cleanedData = [[0 for v in range(numFeatures)] for w in range(numRows)]
+    for x in range(numRows):
+        for y in range(numFeatures):
+            cleanedData[x][y] = data[x][goodFeatures[y]]
+
+    numClassifiedCorrectly = 0
+
+    for i in range(numRows):
+        # copy the ith row from cleanedData
+        ithRow = cleanedData[i].copy()
+        iLabel = int(ithRow.pop(0))
+
+        # initialize nearest neighbor variables
+        nnDistance = float("inf")
+        nnLabel = ""
+
+        # reset file position to the beginning of the file
+        for j in range(numRows):
+            if j != i:
+                # copy the jth row from cleanedData
+                jthRow = cleanedData[j].copy()
+                jLabel = int(jthRow.pop(0))
+
+                # distance = sqrt of the sum of the difference squared
+                distance = np.sqrt(np.sum(np.square(np.asarray(ithRow) - np.asarray(jthRow))))
+
+                # if the calculated distance is now the smallest, update nearest neighbor variables        
+                if distance < nnDistance:
+                    nnDistance = distance
+                    nnLabel = jLabel
+
+        # if labels match, the object was identified correctly
+        if iLabel == nnLabel:
+            numClassifiedCorrectly += 1
+
+    accuracy = numClassifiedCorrectly / numRows
     return accuracy
-
-def crossValidation():
-    return random.randint(0, 10)
-
-def getNumRows(openFile):
-    lines = openFile.readlines()
-    numRows = 0
-    for line in lines:
-        numRows += 1
-    return numRows
-
-def getNumColumns(openFile):
-    line = openFile.readline().strip()
-    return len(line.split())
 
 def main():
     print("Welcome to the Feature Selection Algorithm")
     userFile = input("Type in the name of the file to test: \n")
 
-    # print("\nBeginning search!")
-    # forwardSearch(userFile)
-    print(accuracy(userFile))
+    data = []
+    with open(userFile, "r") as openFile:
+        for i, line in enumerate(openFile):
+            row = [float(item) for item in line.strip().split()]
+            data.append(row)
+    openFile.close()
+
+    searchChoice = input("Type the number of the algorithm that you'd like to run.\n 1) Forward Selection\n 2) Backward Elimination\n")
+    
+    if searchChoice == 1:
+        print(forwardSearch(data))
+    elif searchChoice == 2:
+        backwardsElim(data)
+    else:
+        print(f"Sorry, {searchChoice} is not an option.")
+        exit(1)
 
 main()
